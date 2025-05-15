@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: example-route
+            uri: http://127.0.0.1:8080/
+            predicates:
+              - Path=/api/**
+            filters:
+              - RewritePath=/api/?(?<segment>.*), /$\{segment}
