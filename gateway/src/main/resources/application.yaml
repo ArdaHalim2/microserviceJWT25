@@ -6,7 +6,7 @@ spring:
       mvc:
         routes:
           - id: example-route
-            uri: http://127.0.0.1:8080/
+            uri: http://resourceserver:8080/
             predicates:
               - Path=/api/**
             filters:
