@@ -14,7 +14,7 @@ public class HelloController {
 
     private static final Logger logger = LoggerFactory.getLogger(HelloController.class);
 
-    @GetMapping("/source")
+    @GetMapping("/secure")
     public String secureEndpoints() {
         return "Hello from the secure resourceserver";
     }
