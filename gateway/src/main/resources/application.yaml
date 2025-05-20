@@ -6,8 +6,8 @@ spring:
       mvc:
         routes:
           - id: example-route
-            uri: http://resourceserver:8080/
-            predicates:
-              - Path=/api/**
             filters:
               - RewritePath=/api/?(?<segment>.*), /$\{segment}
+            uri: lb://resource-server
+            predicates:
+              - Path=/api/**
