@@ -72,8 +72,6 @@ public class AuthserviceApplication {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedOrigin("Spa");
-        config.addAllowedOrigin("bff");
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;
@@ -115,30 +113,8 @@ public class AuthserviceApplication {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(PasswordEncoder encoder) {
-        RegisteredClient spaClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("spa-client-id")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:8888/callback.html")
-                .scope(OidcScopes.OPENID)
-                .clientSettings(ClientSettings.builder()
-                        .requireProofKey(true)
-                        .requireAuthorizationConsent(false)
-                        .build())
-                .build();
 
-        RegisteredClient bffClient = RegisteredClient.withId("bff-client")
-                .clientId("bff-client-id")
-                .clientSecret(encoder.encode("bf-client-secret"))
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://localhost:9090/login/oauth2/code/my-auth-server")
-                .scope("read_resource")
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
-                .build();
-
-        RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
+        RegisteredClient client = RegisteredClient.withId("client-id")
                 .clientId("client-id")
                 .clientSecret(encoder.encode("secret"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
@@ -151,7 +127,7 @@ public class AuthserviceApplication {
                         build())
                 .build();
 
-        return new InMemoryRegisteredClientRepository(spaClient, bffClient, client);
+        return new InMemoryRegisteredClientRepository(client);
     }
 
     @Bean
