@@ -2,14 +2,28 @@ services:
   gateway:
     image: gateway:0.0.1-SNAPSHOT
     ports:
-      - "8080:8081"
+      - "8081:8081"
   resourceserver:
     image: resourceserver:0.0.1-SNAPSHOT
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8080:8080"
   auth:
     image: authservice:0.0.1-SNAPSHOT
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "9000:9000"
+  jokeservice:
+    image: jokeservice:0.0.1-SNAPSHOT
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8083:8083"
+  quoteservice:
+    image: quoteservice:0.0.1-SNAPSHOT
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8082:8082"
