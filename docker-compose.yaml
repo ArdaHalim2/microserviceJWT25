@@ -3,27 +3,53 @@ services:
     image: gateway:0.0.1-SNAPSHOT
     ports:
       - "8081:8081"
+    networks:
+      - microservices-net
+    depends_on:
+      - auth
+
   resourceserver:
     image: resourceserver:0.0.1-SNAPSHOT
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8080:8080"
+    networks:
+      - microservices-net
+    depends_on:
+      - auth
+
   auth:
     image: authservice:0.0.1-SNAPSHOT
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "9000:9000"
+    networks:
+      - microservices-net
+
   jokeservice:
     image: jokeservice:0.0.1-SNAPSHOT
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8083:8083"
+    networks:
+      - microservices-net
+    depends_on:
+      - auth
+
   quoteservice:
     image: quoteservice:0.0.1-SNAPSHOT
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8082:8082"
+    networks:
+      - microservices-net
+    depends_on:
+      - auth
+
+networks:
+  microservices-net:
+    driver: bridge
